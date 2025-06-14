@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles/reviews.css">
+    <script src="scripts/reviews.js"></script>
+</head>
+<body>
+   
+
+  <div class="review-form">
+    <header class="headpage">
+        <h2>Full Blog</h2>
+        <nav>
+            <ul>
+                <li><a href="/index.html">Home</a></li>
+                <li><a href="/about.html">About page</a></li>
+                <li><a href="/addForm.html">New Post</a></li>
+                <li><a href="/reviews.html">Contact</a></li>
+
+            </ul>
+        </nav>
+    </header>
+     <form id="reviewForm" action="reviews.html" method="get">
+    <label for="name">Your Name</label>
+    <input type="text" id="name" name="name" placeholder="Your name" required>
+
+    <label for="email">Your Email</label>
+    <input type="email" id="email" name="email" placeholder="Your email" required>
+
+    <label for="rating">Rating</label>
+    <select id="rating" name="rating" required>
+      <option value="">Choose a rating</option>
+      <option value="5">★★★★★ - Excellent</option>
+      <option value="4">★★★★☆ - Good</option>
+      <option value="3">★★★☆☆ - Average</option>
+      <option value="2">★★☆☆☆ - Poor</option>
+      <option value="1">★☆☆☆☆ - Terrible</option>
+    </select>
+
+    <label for="message">Your Review</label>
+    <textarea id="message" name="message" rows="5" placeholder="Write your thoughts..." required></textarea>
+
+    <button type="submit">Submit Review</button>
+  </form>
+
+  <div id="reviewDisplay" class="preview"></div>
+    </div>
+
+    <footer>
+    <p>&copy; <span id="currentYear"></span>🌸 Saidi Talatala 🌸 | People's Blogs. All rights reserved</p>
+    <p id="lastModifiedDate"></p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,62 @@
+
+body {
+   font-family: 'Inter', sans-serif;
+    line-height: 1.8;
+    background: linear-gradient(135deg, #e3f2fd, #fce4ec);
+    margin: 0;
+    padding: 0;
+    color: #2c3e50;
+}
+
+h2{
+  text-align: center; 
+  margin-top: 30px;
+}
+
+a{
+  color: #36cca2;
+  text-decoration: none;
+}
+.review-list {
+      max-width: 800px;
+      margin: 40px auto;
+    }
+
+    .review-card {
+      background: #f7f9fa;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 12px;
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+    }
+
+    .review-card h3 {
+      margin: 0 0 5px;
+      font-size: 1.2rem;
+      color: #2c3e50;
+    }
+
+    .review-card small {
+      color: #888;
+    }
+
+    .review-card p {
+      margin: 8px 0 0;
+      color: #555;
+    }
+  .delete {
+    display: block;
+    margin: 20px auto 60px;
+    padding: 12px 24px;
+    background-color: #e53935;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.delete:hover {
+    background-color: #b71c1c;
+}
