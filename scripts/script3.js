@@ -29,7 +29,7 @@ myForm.addEventListener('submit', function (e) {
   posts.push(newPost);
   savePosts(posts);
 
-  window.location.replace('/index.html');
+  window.location.replace('index.html');
 });
 
 // Footer

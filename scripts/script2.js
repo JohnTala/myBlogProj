@@ -43,7 +43,7 @@ function deletePostFunct() {
   let posts = getPosts();
   posts = posts.filter(p => p.id !== id);
   savePosts(posts);
-  window.location.replace('/index.html');
+  window.location.replace('index.html');
 }
 
 window.addEventListener('DOMContentLoaded', singlePostFunct);
