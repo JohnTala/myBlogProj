@@ -38,7 +38,7 @@ function renderPosts(term = '') {
         <p><small>Posted: ${new Date(post.timestamp).toLocaleDateString()}</small></p>
         <p><small>${post.likes} likes</small></p>
         <p>${post.body.slice(0, 200)}...</p>
-        <a href="/blogPost.html?id=${post.id}">Read more</a>
+        <a href="blogPost.html?id=${post.id}">Read more</a>
       </div>
     `;
   });
