@@ -1,29 +1,45 @@
 
-const myForm = document.querySelector('form');
 
-myForm.addEventListener('submit', addPostFunct);
+  
+  document.addEventListener("DOMContentLoaded", () => {
+  const myForm = document.querySelector("form");
 
-async function addPostFunct(e) {
+  if (!myForm) return;
+
+  // Initialize posts from localStorage or default to empty
+  let posts = JSON.parse(localStorage.getItem("posts")) || [];
+
+  myForm.addEventListener("submit", function (e) {
     e.preventDefault();
-    //get the structure of the post
-    const myObjPost = {
-        title: myForm.title.value,
-        body: myForm.post.value,
-        likes:0
-    };
 
-    await fetch('http://localhost:3000/posts', {
-        method: "POST",
-        body: JSON.stringify(myObjPost),
-        headers:{'content-type':'application/json'}
-    })
+    const title = myForm.title.value.trim();
+    const body = myForm.post.value.trim();
 
-    window.location.replace('/index.html');
-}
-// Show the current year in the footer
-let year = new Date().getFullYear();
-document.getElementById("currentYear").textContent = year;
+    if (!title || !body) {
+      alert("Please fill in both title and post content.");
+      return;
+    }
 
-// Show the date the page was last modified
-let lastModified = document.lastModified;
-document.getElementById("lastModifiedDate").textContent = "Last updated: " + lastModified;
+    const newPost = {
+  id: crypto.randomUUID(),
+  title,
+  body,
+  likes: 0,
+  timestamp: Date.now() // <-- This tracks when the post was created
+};
+
+
+    posts.push(newPost);
+
+    // Save updated posts to localStorage
+    localStorage.setItem("posts", JSON.stringify(posts));
+
+    // Redirect to homepage where the post will be shown
+    window.location.href = "/index.html";
+  });
+
+  // Footer content
+  document.getElementById("currentYear").textContent = new Date().getFullYear();
+  document.getElementById("lastModifiedDate").textContent =
+    "Last updated: " + document.lastModified;
+});

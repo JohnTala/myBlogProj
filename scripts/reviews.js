@@ -1,39 +1,51 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const form = document.getElementById("reviewForm");
 
-  form.addEventListener("submit", function (e) {
-    e.preventDefault();
 
-    const name = form.name.value.trim();
-    const email = form.email.value.trim();
-    const rating = form.rating.value;
-    const message = form.message.value.trim();
+  document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("reviewForm");
 
-    if (!name || !email || !rating || !message) {
-      alert("Please fill in all fields.");
-      return;
-    }
+    if (!form) return; // Safeguard if form doesn't exist
 
-    const review = { name, email, rating, message, timestamp: Date.now() };
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
 
-    // Get existing reviews from localStorage
-    let reviews = JSON.parse(localStorage.getItem("reviews")) || [];
+      const name = form.name.value.trim();
+      const email = form.email.value.trim();
+      const rating = form.rating.value;
+      const message = form.message.value.trim();
 
-    // Add the new review
-    reviews.unshift(review);
+      if (!name || !email || !rating || !message) {
+        alert("Please fill in all fields.");
+        return;
+      }
 
-    // Save back to localStorage
-    localStorage.setItem("reviews", JSON.stringify(reviews));
+      const review = {
+        name,
+        email,
+        rating,
+        message,
+        timestamp: Date.now()
+      };
 
-    // Optional: Redirect to display page
-    window.location.href = "display.html";
+      // Get existing reviews or initialize empty array
+      let reviews = JSON.parse(localStorage.getItem("reviews")) || [];
+
+      // Add new review to the beginning
+      reviews.unshift(review);
+
+      // Save updated reviews back to localStorage
+      localStorage.setItem("reviews", JSON.stringify(reviews));
+
+      // Optional: Navigate to display page
+      window.location.href = "display.html";
+    });
+
+    // Update footer
+    const year = new Date().getFullYear();
+    const lastModified = document.lastModified;
+
+    const yearElem = document.getElementById("currentYear");
+    const modifiedElem = document.getElementById("lastModifiedDate");
+
+    if (yearElem) yearElem.textContent = year;
+    if (modifiedElem) modifiedElem.textContent = "Last updated: " + lastModified;
   });
-
-  // Show the current year in the footer
-let year = new Date().getFullYear();
-document.getElementById("currentYear").textContent = year;
-
-// Show the date the page was last modified
-let lastModified = document.lastModified;
-document.getElementById("lastModifiedDate").textContent = "Last updated: " + lastModified;
-});
