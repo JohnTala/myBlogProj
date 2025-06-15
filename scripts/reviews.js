@@ -1,51 +1,42 @@
 
+// Namespace for localStorage
+const projectPrefix = 'myBlogProj_';
 
-  document.addEventListener("DOMContentLoaded", () => {
-    const form = document.getElementById("reviewForm");
+function getReviews() {
+  return JSON.parse(localStorage.getItem(`${projectPrefix}reviews`)) || [];
+}
 
-    if (!form) return; // Safeguard if form doesn't exist
+function saveReviews(reviews) {
+  localStorage.setItem(`${projectPrefix}reviews`, JSON.stringify(reviews));
+}
 
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("reviewForm");
 
-      const name = form.name.value.trim();
-      const email = form.email.value.trim();
-      const rating = form.rating.value;
-      const message = form.message.value.trim();
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
 
-      if (!name || !email || !rating || !message) {
-        alert("Please fill in all fields.");
-        return;
-      }
+    const name = form.name.value.trim();
+    const email = form.email.value.trim();
+    const rating = form.rating.value;
+    const message = form.message.value.trim();
 
-      const review = {
-        name,
-        email,
-        rating,
-        message,
-        timestamp: Date.now()
-      };
+    if (!name || !email || !rating || !message) {
+      alert("Please fill in all fields.");
+      return;
+    }
 
-      // Get existing reviews or initialize empty array
-      let reviews = JSON.parse(localStorage.getItem("reviews")) || [];
+    const review = { name, email, rating, message, timestamp: Date.now() };
+    const reviews = getReviews();
 
-      // Add new review to the beginning
-      reviews.unshift(review);
+    reviews.unshift(review); // newest on top
+    saveReviews(reviews);
 
-      // Save updated reviews back to localStorage
-      localStorage.setItem("reviews", JSON.stringify(reviews));
-
-      // Optional: Navigate to display page
-      window.location.href = "display.html";
-    });
-
-    // Update footer
-    const year = new Date().getFullYear();
-    const lastModified = document.lastModified;
-
-    const yearElem = document.getElementById("currentYear");
-    const modifiedElem = document.getElementById("lastModifiedDate");
-
-    if (yearElem) yearElem.textContent = year;
-    if (modifiedElem) modifiedElem.textContent = "Last updated: " + lastModified;
+    // Redirect to display page
+    window.location.href = "display.html";
   });
+
+  // Footer
+  document.getElementById("currentYear").textContent = new Date().getFullYear();
+  document.getElementById("lastModifiedDate").textContent = "Last updated: " + document.lastModified;
+});

@@ -1,64 +1,58 @@
 
 
-  document.addEventListener("DOMContentLoaded", () => {
-  const container = document.querySelector(".preview");
-  const searchForm = document.querySelector(".search");
+// Namespace for localStorage to avoid conflicts
+const projectPrefix = 'myBlogProj_';
 
-  if (!container || !searchForm) return;
+function getPosts() {
+  return JSON.parse(localStorage.getItem(`${projectPrefix}posts`)) || [];
+}
 
-  const getPosts = () => JSON.parse(localStorage.getItem("posts")) || [];
+function savePosts(posts) {
+  localStorage.setItem(`${projectPrefix}posts`, JSON.stringify(posts));
+}
 
-  function renderPosts(term = "") {
-    let posts = getPosts();
+// DOM elements
+const container = document.querySelector('.preview');
+const searchForm = document.querySelector('.search');
 
-    // Filter if search term exists
-    if (term) {
-      const lowerTerm = term.toLowerCase();
-      posts = posts.filter(post =>
-        post.title.toLowerCase().includes(lowerTerm) ||
-        post.body.toLowerCase().includes(lowerTerm)
-      );
-    }
+// Render posts
+function renderPosts(term = '') {
+  let posts = getPosts();
 
-    // Sort by newest timestamp (most recent first)
-     posts.sort((a, b) => b.timestamp - a.timestamp);
-
-    // Render
-    if (posts.length === 0) {
-      container.innerHTML = "<p style='text-align:center;'>No posts found.</p>";
-      return;
-    }
-
-    let template = "";
-
-    posts.forEach(post => {
-
-      const date=new Date(post.timestamp).toLocaleDateString('en-US', {
-                            year: 'numeric',
-                            month: 'short',
-                            day: 'numeric'
-                          })
-      template += `
-        <div class="previewblog">
-          <h2>${post.title}</h2>
-          <p><small>Posted: ${date}</small></p>
-          <p><small>${post.likes} likes</small></p>
-          <p>${post.body.slice(0, 200)}...</p>
-          <a href="/blogPost.html?id=${post.id}">Read more</a>
-        </div>
-      `;
-    });
-
-    container.innerHTML = template;
+  // Filter by search term
+  if (term) {
+    posts = posts.filter(post =>
+      post.title.toLowerCase().includes(term.toLowerCase()) ||
+      post.body.toLowerCase().includes(term.toLowerCase())
+    );
   }
 
-  // On initial load
-  renderPosts();
+  // Sort by newest (using timestamp)
+  posts.sort((a, b) => b.timestamp - a.timestamp);
 
-  // On search
-  searchForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const term = searchForm.searchword.value.trim();
-    renderPosts(term);
+  let template = '';
+  posts.forEach(post => {
+    template += `
+      <div class="previewblog">
+        <h2>${post.title}</h2>
+        <p><small>Posted: ${new Date(post.timestamp).toLocaleDateString()}</small></p>
+        <p><small>${post.likes} likes</small></p>
+        <p>${post.body.slice(0, 200)}...</p>
+        <a href="/blogPost.html?id=${post.id}">Read more</a>
+      </div>
+    `;
   });
+
+  container.innerHTML = template || '<p>No posts found.</p>';
+}
+
+// Search handler
+searchForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  renderPosts(searchForm.searchword.value.trim());
 });
+
+window.addEventListener('DOMContentLoaded', () => renderPosts());
+// Footer
+document.getElementById("currentYear").textContent = new Date().getFullYear();
+document.getElementById("lastModifiedDate").textContent = "Last updated: " + document.lastModified;

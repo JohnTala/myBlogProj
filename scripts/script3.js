@@ -1,45 +1,37 @@
 
+// Namespace for localStorage
+const projectPrefix = 'myBlogProj_';
 
-  
-  document.addEventListener("DOMContentLoaded", () => {
-  const myForm = document.querySelector("form");
+function getPosts() {
+  return JSON.parse(localStorage.getItem(`${projectPrefix}posts`)) || [];
+}
 
-  if (!myForm) return;
+function savePosts(posts) {
+  localStorage.setItem(`${projectPrefix}posts`, JSON.stringify(posts));
+}
 
-  // Initialize posts from localStorage or default to empty
-  let posts = JSON.parse(localStorage.getItem("posts")) || [];
+// Form
+const myForm = document.querySelector('form');
 
-  myForm.addEventListener("submit", function (e) {
-    e.preventDefault();
+myForm.addEventListener('submit', function (e) {
+  e.preventDefault();
 
-    const title = myForm.title.value.trim();
-    const body = myForm.post.value.trim();
+  const posts = getPosts();
 
-    if (!title || !body) {
-      alert("Please fill in both title and post content.");
-      return;
-    }
+  const newPost = {
+    id: crypto.randomUUID(),
+    title: myForm.title.value.trim(),
+    body: myForm.post.value.trim(),
+    likes: 0,
+    timestamp: Date.now()
+  };
 
-    const newPost = {
-  id: crypto.randomUUID(),
-  title,
-  body,
-  likes: 0,
-  timestamp: Date.now() // <-- This tracks when the post was created
-};
+  posts.push(newPost);
+  savePosts(posts);
 
-
-    posts.push(newPost);
-
-    // Save updated posts to localStorage
-    localStorage.setItem("posts", JSON.stringify(posts));
-
-    // Redirect to homepage where the post will be shown
-    window.location.href = "/index.html";
-  });
-
-  // Footer content
-  document.getElementById("currentYear").textContent = new Date().getFullYear();
-  document.getElementById("lastModifiedDate").textContent =
-    "Last updated: " + document.lastModified;
+  window.location.replace('/index.html');
 });
+
+// Footer
+document.getElementById("currentYear").textContent = new Date().getFullYear();
+document.getElementById("lastModifiedDate").textContent = "Last updated: " + document.lastModified;

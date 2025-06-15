@@ -35,8 +35,13 @@
         <p>Quaerat dolor id harum eum recusandae ipsam cumque rem minima consequatur. Commodi, perferendis, laudantium eveniet tempora optio debitis vero sequi itaque ullam, nulla velit totam sapiente molestiae nisi rerum officiis?</p>
     </div>
  </div>
- <footer>
+
+<footer>
 <p>&copy; <span id="currentYear"></span>🌸 Saidi Talatala 🌸 | People's Blogs. All rights reserved</p>
-<p id="lastModifiedDate"></p></footer>
+    <p id="lastModifiedDate"></p></footer>
 </body>
+<script>
+    document.getElementById("currentYear").textContent = new Date().getFullYear();
+    document.getElementById("lastModifiedDate").textContent = "Last updated: " + document.lastModified;
+</script>
 </html>
