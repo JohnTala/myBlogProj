@@ -103,10 +103,11 @@ nav a:hover {
     color: #000;
     border: none;
     border-radius: 6px;
+    cursor: pointer;
 }
 
 #menu::before {
-    content: "≡";
+    content: " ";
 }
 
 #menu.show::before {
